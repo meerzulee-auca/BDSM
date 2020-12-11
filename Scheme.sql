@@ -20,6 +20,17 @@ GO
     );
 
 GO
+    -- Gray Working rooms
+    CREATE TABLE dbo.WorkingRoom (
+        ID BIGINT NOT NULL CONSTRAINT PK_WorkingRoom PRIMARY KEY CLUSTERED,
+        FloorID bigint NOT NULL CONSTRAINT FK_Floors FOREIGN KEY REFERENCES Floors(ID),
+        RoomTitle VARCHAR(100),
+        Area FLOAT NOT NULL,
+        IsOccupated BIT NOT NULL,
+        MaxHumanLoad INT
+    );
+
+GO
     ---- __________RED TABLES__________ ----
     -- Create a new table called 'Companies' in schema 'dbo'
     -- Drop the table if it already exists
