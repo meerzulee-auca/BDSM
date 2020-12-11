@@ -116,3 +116,22 @@ CREATE TABLE dbo.Cards
     IsActive boolean NOT NULL
 );
 GO
+
+---- __________RED TABLES__________ ----
+
+-- Create a new table called 'ClientEmployees' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.ClientEmployees', 'U') IS NOT NULL
+DROP TABLE dbo.ClientEmployees
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.ClientEmployees
+(
+    ID BIGSERIAL NOT NULL PRIMARY KEY,
+    CompanyID bigint NOT NULL
+        CONSTRAINT FK_ClientEmployees_Companies FOREIGN KEY REFERENCES dbo.Companies(ID) ,
+    PersonID bigint NOT NULL
+        CONSTRAINT FK_ClientEmployees_Persons FOREIGN KEY REFERENCES dbo.Persons(ID)
+
+);
+GO
