@@ -67,3 +67,18 @@ CREATE TABLE dbo.MarketSectors
 
 );
 GO
+
+-- Create a new table called 'CompaniesSectors' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.CompaniesSectors', 'U') IS NOT NULL
+DROP TABLE dbo.CompaniesSectors
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.CompaniesSectors
+(
+    ID BIGINT NOT NULL PRIMARY KEY,
+    -- primary key column
+    CompanyID bigint NOT NULL,
+    SectorID bigint NOT NULL
+);
+GO
