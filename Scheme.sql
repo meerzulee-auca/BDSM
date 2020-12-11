@@ -135,3 +135,26 @@ CREATE TABLE dbo.ClientEmployees
 
 );
 GO
+
+
+---- __________BLUE TABLES__________ ----
+
+-- Create a new table called 'Parkings' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Parkings', 'U') IS NOT NULL
+DROP TABLE dbo.Parkings
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Parkings
+(
+    ID BIGSERIAL NOT NULL PRIMARY KEY,
+    -- primary key column
+    BuildingID varchar(100) NOT NULL
+        CONSTRAINT FK_Parkings_Buildings FOREIGN KEY REFERENCES dbo.Buildings(Address) ,
+    Capacity int NOT NULL,
+    IsUnderground boolean NOT NULL
+    -- specify more columns here
+);
+GO
+
+
