@@ -148,13 +148,61 @@ GO
 CREATE TABLE dbo.Parkings
 (
     ID BIGSERIAL NOT NULL PRIMARY KEY,
-    -- primary key column
     BuildingID varchar(100) NOT NULL
-        CONSTRAINT FK_Parkings_Buildings FOREIGN KEY REFERENCES dbo.Buildings(Address) ,
+        CONSTRAINT FK_Parkings_Buildings FOREIGN KEY REFERENCES dbo.Buildings(ID) ,
     Capacity int NOT NULL,
     IsUnderground boolean NOT NULL
-    -- specify more columns here
 );
 GO
 
+-- Create a new table called 'ParkingLot' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.ParkingLot', 'U') IS NOT NULL
+DROP TABLE dbo.ParkingLot
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.ParkingLot
+(
+    ID bIGSERIAL NOT NULL PRIMARY KEY,
+    ParkingID bigint NOT NULL
+        CONSTRAINT FK_ParkingLots_Parkings FOREIGN KEY REFERENCES dbo.Parkings(ID) ,
+    IsOccupied BOOLEAN NOT NULL,
+    OccupierCompany bigint
+        CONSTRAINT FK_ParkingLots_Companies FOREIGN KEY REFERENCES dbo.Companies(ID)
+);
+GO
 
+-- Create a new table called 'RegisteredCars' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.RegisteredCars', 'U') IS NOT NULL
+DROP TABLE dbo.RegisteredCars
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.RegisteredCars
+(
+    ID serial NOT NULL PRIMARY KEY,
+    PlateNumber VARCHAR(30) NOT NULL,
+    CompanyID bigint NOT NULL
+        CONSTRAINT FK_RegisteredCars_Companies FOREIGN KEY REFERENCES dbo.Companies(ID) ,
+    OwnerID bigint NOT NULL
+        CONSTRAINT FK_RegisteredCars_ClientEmployees FOREIGN KEY REFERENCES dbo.ClientEmployees(ID)
+);
+GO
+
+-- Create a new table called 'ParkingPassCards' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.ParkingPassCards', 'U') IS NOT NULL
+DROP TABLE dbo.ParkingPassCards
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.ParkingPassCards
+(
+    ID bigint NOT NULL PRIMARY KEY,
+    CarID int NOT NULL
+        CONSTRAINT FK_ParkingPassCards_RegisteredCars FOREIGN KEY REFERENCES dbo.RegisteredCars(ID),
+    ParkingLotID bigint NOT NULL
+        CONSTRAINT FK_ParkingPassCards_ParkingLots FOREIGN KEY REFERENCES dbo.ParkingLots(ID),
+    IssueDate DATETIME NOT NULL,
+    ExpirationDate DATETIME NOT NULL
+);
+GO
