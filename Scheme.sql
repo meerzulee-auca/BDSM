@@ -13,7 +13,7 @@ GO
 -- GRAY Floors of the building
 CREATE TABLE dbo.Floors
 (
-    ID BIGINT NOT NULL CONSTRAINT PK_Floors PRIMARY KEY CLUSTERED,
+    ID BIGSERIAL NOT NULL CONSTRAINT PK_Floors PRIMARY KEY CLUSTERED,
     BuildingID VARCHAR(100) NOT NULL CONSTRAINT FK_Building FOREIGN KEY REFERENCES Building(Address),
     LEVEL INT NOT NULL,
     UsableArea FLOAT NOT NULL,
@@ -25,7 +25,7 @@ GO
 -- Gray Working rooms
 CREATE TABLE dbo.WorkingRoom
 (
-    ID BIGINT NOT NULL CONSTRAINT PK_WorkingRoom PRIMARY KEY CLUSTERED,
+    ID BIGSERIAL NOT NULL CONSTRAINT PK_WorkingRoom PRIMARY KEY CLUSTERED,
     FloorID bigint NOT NULL CONSTRAINT FK_Floors FOREIGN KEY REFERENCES Floors(ID),
     RoomTitle VARCHAR(100),
     Area FLOAT NOT NULL,
@@ -42,7 +42,7 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE dbo.Companies
 (
-    ID INT NOT NULL CONSTRAINT PK_Companies PRIMARY KEY,
+    ID BIGSERIAL NOT NULL CONSTRAINT PK_Companies PRIMARY KEY,
     -- primary key column
     Title [NVARCHAR] (50) NOT NULL,
     Capitalisation bigint NOT NULL,
@@ -51,4 +51,19 @@ CREATE TABLE dbo.Companies
     PhoneNumberOfResponsible VARCHAR(50) NOT NULL
 );
 
+GO
+
+-- Create a new table called 'MarketSectors' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.MarketSectors', 'U') IS NOT NULL
+DROP TABLE dbo.MarketSectors
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.MarketSectors
+(
+    ID SERIAL NOT NULL PRIMARY KEY,
+    -- primary key column
+    Title NVARCHAR(50) NOT NULL,
+
+);
 GO
