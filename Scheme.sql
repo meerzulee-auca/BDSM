@@ -82,3 +82,37 @@ CREATE TABLE dbo.CompaniesSectors
     SectorID bigint NOT NULL
 );
 GO
+
+
+
+---- __________GREEN TABLES__________ ----
+
+-- Create a new table called 'Persons' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Persons', 'U') IS NOT NULL
+DROP TABLE dbo.Persons
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Persons
+(
+    ID BIGSERIAL NOT NULL PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(150) NOT NULL,
+    PhoneNumber NVARCHAR(70) NOT NULL
+);
+GO
+
+-- Create a new table called 'Cards' in schema 'dbo'
+-- Drop the table if it already exists
+IF OBJECT_ID('dbo.Cards', 'U') IS NOT NULL
+DROP TABLE dbo.Cards
+GO
+-- Create the table in the specified schema
+CREATE TABLE dbo.Cards
+(
+    ID BIGSERIAL NOT NULL PRIMARY KEY,
+    PersonID bigint NOT NULL
+        CONSTRAINT FK_Cards_Persons FOREIGN KEY REFERENCES dbo.Persons(ID),
+    IsActive boolean NOT NULL
+);
+GO
